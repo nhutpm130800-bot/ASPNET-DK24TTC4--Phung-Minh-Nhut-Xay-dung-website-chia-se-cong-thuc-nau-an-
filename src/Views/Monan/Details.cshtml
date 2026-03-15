@@ -1,0 +1,44 @@
+﻿@model WebNauAn_TVU.Models.MonAn
+
+@{
+    ViewData["Title"] = "Chi tiết món ăn";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-lg border-0">
+        <div class="card-header bg-primary text-white">
+            <h2 class="mb-0">@Model.TenMon</h2>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-5 text-center">
+                    @if (!string.IsNullOrEmpty(Model.HinhAnh))
+                    {
+                        
+                        <img src="/@Model.HinhAnh" class="img-fluid rounded shadow" style="max-height: 400px; width: 100%; object-fit: cover;" alt="Ảnh món ăn" />
+                    }
+                    else
+                    {
+                        <div class="p-5 bg-light border rounded text-muted">Không có ảnh hiển thị</div>
+                    }
+                </div>
+                <div class="col-md-7">
+                    
+                    <p class="text-muted">Đăng bởi: <strong>@(Model.User?.UserName ?? "Hệ thống")</strong></p>
+                    <hr />
+                    <h4>Mô tả</h4>
+                    <p>@Model.MoTa</p>
+                    <h4 class="mt-4">Công thức chế biến</h4>
+                    <div class="p-3 bg-light border rounded">
+                        
+                        <p style="white-space: pre-line;">@Model.CongThuc</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning">Sửa</a>
+            <a asp-action="Index" class="btn btn-secondary">Quay lại danh sách</a>
+        </div>
+    </div>
+</div>

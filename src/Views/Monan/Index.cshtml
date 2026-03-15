@@ -1,0 +1,69 @@
+﻿@model IEnumerable<WebNauAn_TVU.Models.MonAn>
+
+@{
+    ViewData["Title"] = "Danh sách món ăn";
+}
+
+<div class="container mt-4">
+    <h1 class="text-primary border-bottom pb-2">Danh sách món ăn</h1>
+
+    <div class="d-flex justify-content-between align-items-center my-3">
+        <a asp-action="Create" class="btn btn-success">
+            <i class="fas fa-plus"></i> Thêm món mới
+        </a>
+
+        
+        <form asp-action="Index" method="get" class="d-flex shadow-sm">
+            <input type="text" name="searchString" class="form-control" style="width: 300px;" placeholder="Tìm tên món ăn..." />
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-search"></i> Tìm
+            </button>
+        </form>
+    </div>
+
+    <table class="table table-hover shadow-sm bg-white">
+        <thead class="table-dark">
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.TenMon)</th>
+                <th>@Html.DisplayNameFor(model => model.MoTa)</th>
+                <th>@Html.DisplayNameFor(model => model.CongThuc)</th>
+                <th>Ảnh</th>
+                <th class="text-center">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="fw-bold text-dark">
+                        @Html.DisplayFor(modelItem => item.TenMon)
+                    </td>
+                    <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                        @Html.DisplayFor(modelItem => item.MoTa)
+                    </td>
+                    <td>
+                        <span class="badge bg-info text-dark">Xem chi tiết để thấy công thức</span>
+                    </td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.HinhAnh))
+                        {
+                            
+                            <img src="/@item.HinhAnh" alt="Ảnh món ăn" style="width:100px; height:70px; object-fit:cover; border: 1px solid #ddd; border-radius: 5px;" />
+                        }
+                        else
+                        {
+                            <span class="text-muted italic">Không có ảnh</span>
+                        }
+                    </td>
+                    <td class="text-center">
+                        <div class="btn-group" role="group">
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-warning">Sửa</a>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info">Chi tiết</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Xóa</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

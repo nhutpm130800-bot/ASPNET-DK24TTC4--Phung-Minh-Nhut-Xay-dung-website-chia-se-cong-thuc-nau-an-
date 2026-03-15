@@ -1,0 +1,44 @@
+﻿@model WebNauAn_TVU.Models.MonAn
+
+@{
+    ViewData["Title"] = "Xóa Món Ăn";
+}
+
+<div class="container mt-4">
+    <div class="card border-danger shadow">
+        <div class="card-header bg-danger text-white">
+            <h3 class="mb-0">Xác nhận xóa món ăn</h3>
+        </div>
+        <div class="card-body">
+            <h5 class="text-danger">Bạn có chắc chắn muốn xóa món này không? Hành động này không thể hoàn tác!</h5>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-3">Tên Món</dt>
+                <dd class="col-sm-9 fw-bold">@Model.TenMon</dd>
+                
+                <dt class="col-sm-3">Mô Tả</dt>
+                <dd class="col-sm-9">@Model.MoTa</dd>
+
+                <dt class="col-sm-3">Hình Ảnh</dt>
+                <dd class="col-sm-9">
+                    @if (!string.IsNullOrEmpty(Model.HinhAnh))
+                    {
+                        
+                        <img src="/@Model.HinhAnh" class="img-thumbnail" style="max-width:300px; border-radius:10px shadow-sm;" />
+                    }
+                    else
+                    {
+                        <span class="text-muted">Không có ảnh</span>
+                    }
+                </dd>
+            </dl>
+        </div>
+        <div class="card-footer bg-light">
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="Id" />
+                <button type="submit" class="btn btn-danger px-4">Xác nhận xóa ngay</button>
+                <a asp-action="Index" class="btn btn-secondary px-4">Quay lại danh sách</a>
+            </form>
+        </div>
+    </div>
+</div>
