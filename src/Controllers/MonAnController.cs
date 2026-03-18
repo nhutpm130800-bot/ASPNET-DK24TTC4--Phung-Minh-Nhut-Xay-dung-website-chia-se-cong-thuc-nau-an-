@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using WebNauAn_TVU.Models;
 using System.Linq;
 using System.IO;
@@ -19,13 +19,10 @@ namespace WebNauAn_TVU.Controllers
             _context = context;
         }
 
-       
         public async Task<IActionResult> Index(string searchString)
         {
-            
             var monAns = _context.MonAn.Include(m => m.User).AsQueryable();
 
-            
             if (!string.IsNullOrEmpty(searchString))
             {
                 monAns = monAns.Where(s => s.TenMon.Contains(searchString));
@@ -53,7 +50,6 @@ namespace WebNauAn_TVU.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(MonAn monAn)
         {
-            
             monAn.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             if (monAn.ImageFile != null)
@@ -61,12 +57,15 @@ namespace WebNauAn_TVU.Controllers
                 monAn.HinhAnh = await SaveImage(monAn.ImageFile);
             }
 
-            _context.MonAn.Add(monAn);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            if (ModelState.IsValid || monAn.UserId != null)
+            {
+                _context.MonAn.Add(monAn);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(monAn);
         }
 
-     
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null) return NotFound();
@@ -75,7 +74,6 @@ namespace WebNauAn_TVU.Controllers
             return View(monAn);
         }
 
-        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, MonAn monAn)
@@ -84,18 +82,18 @@ namespace WebNauAn_TVU.Controllers
 
             try
             {
+                var existingMonAn = await _context.MonAn.AsNoTracking().FirstOrDefaultAsync(m => m.Id == id);
+
                 if (monAn.ImageFile != null)
                 {
-                    
                     monAn.HinhAnh = await SaveImage(monAn.ImageFile);
                 }
                 else
                 {
-                    
-                    var existingMonAn = await _context.MonAn.AsNoTracking().FirstOrDefaultAsync(m => m.Id == id);
                     monAn.HinhAnh = existingMonAn.HinhAnh;
-                    monAn.UserId = existingMonAn.UserId;
                 }
+
+                monAn.UserId = existingMonAn.UserId;
 
                 _context.Update(monAn);
                 await _context.SaveChangesAsync();
@@ -108,7 +106,6 @@ namespace WebNauAn_TVU.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-       
         private async Task<string> SaveImage(Microsoft.AspNetCore.Http.IFormFile imageFile)
         {
             string wwwRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
