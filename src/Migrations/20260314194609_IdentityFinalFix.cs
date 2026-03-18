@@ -9,7 +9,7 @@ namespace WebNauAn_TVU.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            // 1. Tạo các bảng Identity (Cái này chưa có nên phải tạo mới)
+           
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new {
@@ -41,7 +41,7 @@ namespace WebNauAn_TVU.Migrations
                 },
                 constraints: table => { table.PrimaryKey("PK_AspNetUsers", x => x.Id); });
 
-            // --- TUI ĐÃ XÓA LỆNH TẠO BẢNG MonAn Ở ĐÂY ĐỂ TRÁNH LỖI ---
+           
 
             migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
@@ -118,7 +118,7 @@ namespace WebNauAn_TVU.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            // XÓA TRẮNG HÀM DOWN ĐỂ TRÁNH LỖI "CANNOT FIND OBJECT" KHI CẦN ROLLBACK
+          
         }
     }
 }
