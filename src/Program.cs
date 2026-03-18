@@ -4,13 +4,13 @@ using WebNauAn_TVU.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Kết nối Database
+
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Cấu hình Identity: Tắt hết xác thực rườm rà cho mượt
+
 builder.Services.AddDefaultIdentity<IdentityUser>(options => {
-    options.SignIn.RequireConfirmedAccount = false; // Đăng ký xong là vào luôn
+    options.SignIn.RequireConfirmedAccount = false; 
     options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
     options.Password.RequireDigit = false;
     options.Password.RequiredLength = 6;
@@ -31,10 +31,10 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles(); // Đổi lại từ MapStaticAssets cho phổ thông
+app.UseStaticFiles(); 
 app.UseRouting();
 
-// Thứ tự này cực kỳ quan trọng để nhận diện tài khoản
+
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -42,6 +42,6 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=MonAn}/{action=Index}/{id?}");
 
-app.MapRazorPages(); // Phải có dòng này thì trang Login/Register mới hiện ra
+app.MapRazorPages(); 
 
 app.Run();
